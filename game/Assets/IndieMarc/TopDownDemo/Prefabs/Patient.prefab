@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3472327557273296698}
   - component: {fileID: 3588919135217283888}
   - component: {fileID: 6231198314179700906}
+  - component: {fileID: 3552936237527489573}
   m_Layer: 0
   m_Name: Patient
   m_TagString: Untagged
@@ -26,9 +27,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3525705247109985726}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -10.87, y: 5.66, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 3523801995440538238}
   - {fileID: 3523633550863206172}
@@ -45,7 +46,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.25, y: 0}
@@ -71,7 +72,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 4b97d9e9edd4e3a459013e882b8190d5, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.8
   m_Pitch: 1
@@ -171,9 +172,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healed: 0
   reset_on_death: 1
-  audio_patient_healed: {fileID: 0}
+  audio_patient_healed: {fileID: 8300000, guid: 4b97d9e9edd4e3a459013e882b8190d5,
+    type: 3}
   patient_healed_sprite: {fileID: 21300000, guid: 897a6c6f3b590c34ea8475424c0cc89c,
     type: 3}
+--- !u!114 &3552936237527489573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525705247109985726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7fe7ad6cf1798849849ec4f1a3f1fe3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  auto_sort: 1
+  offset: 0.5
+  sort_refresh_rate: 0.1
+  auto_rotate: 1
+  rotate_offset: 0.5
 --- !u!1 &3525745645093928648
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,8 +218,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3525745645093928648}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.25, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
+  m_LocalPosition: {x: -0.113, y: -2.191, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 3528684641868879102}
   m_RootOrder: 1
@@ -266,7 +285,7 @@ GameObject:
   - component: {fileID: 3523801995440538238}
   - component: {fileID: 3610927960057414368}
   m_Layer: 0
-  m_Name: DoorSprite
+  m_Name: PatientSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -322,8 +341,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -874645109
+  m_SortingLayer: 1
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 7c348680103da58499292a367a7c06f6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -17,6 +17,9 @@ namespace IndieMarc.TopDown
         public int vaccine_value = 1;
         public Sprite vaccine_half;
 
+        [Header("Door")]
+        public Door door;
+
         private string unique_id;
         private SpriteRenderer sprite_renderer;
         private CarryItem carry_item;
@@ -56,6 +59,11 @@ namespace IndieMarc.TopDown
             }
 
             return true;
+        }
+
+        public void OpenDoor()
+        {
+            door.Open();
         }
     }
 

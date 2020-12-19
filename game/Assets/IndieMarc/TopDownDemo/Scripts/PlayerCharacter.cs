@@ -25,17 +25,24 @@ namespace IndieMarc.TopDown
         public float move_deccel = 1f;
         public float move_max = 1f;
 
+        [Header("Audio")]
+        public AudioClip audio_die;
+
         public UnityAction onDeath;
         public UnityAction onHit;
 
         private Rigidbody2D rigid;
         private Transform head;
+        private Transform mouth_caper;
         private Animator animator;
         private AutoOrderLayer auto_order;
         private ContactFilter2D contact_filter;
+        private AudioSource audio_source;
 
         private float hp;
         private bool is_dead = false;
+        private bool is_wearing_mouth_caper;
+        private Vector2 start_pos;
         private Vector2 move;
         private Vector2 move_input;
         private Vector2 lookat = Vector2.zero;
@@ -50,9 +57,11 @@ namespace IndieMarc.TopDown
             character_list[player_id] = this;
             rigid = GetComponent<Rigidbody2D>();
             head = transform.Find("Head");
+            mouth_caper = transform.Find("MouthCaper");
             animator = GetComponent<Animator>();
             auto_order = GetComponent<AutoOrderLayer>();
             hp = max_hp;
+            start_pos = transform.position;
         }
 
         void OnDestroy()
@@ -102,7 +111,8 @@ namespace IndieMarc.TopDown
             if (Mathf.Abs(lookat.x) > 0.02)
                 side = Mathf.Sign(lookat.x);
                 // head.localScale.x = side;
-                head.localRotation = Quaternion.Euler(0, side == 1 ? 0 : 180, 0);            
+                head.localRotation = Quaternion.Euler(0, side == 1 ? 0 : 180, 0);
+                mouth_caper.localRotation = Quaternion.Euler(0, side == 1 ? 0 : 180, 0);
         }
 
         public void HealDamage(float heal)
@@ -112,6 +122,17 @@ namespace IndieMarc.TopDown
                 hp += heal;
                 hp = Mathf.Min(hp, max_hp);
             }
+        }
+
+        public void StartWearMouthCaper()
+        {
+            is_wearing_mouth_caper = true;
+            mouth_caper.gameObject.SetActive(true);
+        }
+
+        public bool IsWearingMouthCaper()
+        {
+            return is_wearing_mouth_caper;
         }
 
         public void TakeDamage(float damage)
@@ -144,6 +165,10 @@ namespace IndieMarc.TopDown
 
                 if (onDeath != null)
                     onDeath.Invoke();
+
+                audio_source.Play();
+
+                Teleport(start_pos);
             }
         }
         
