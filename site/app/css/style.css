@@ -14,8 +14,9 @@ h6 {
 
 .container {
   padding: 0px 16px;
-  margin: auto;
-  max-width: 768px; }
+  margin: auto; }
+  .container--m {
+    max-width: 768px; }
 
 .block {
   background: aliceblue;
