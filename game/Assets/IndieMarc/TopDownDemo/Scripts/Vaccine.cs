@@ -42,10 +42,8 @@ namespace IndieMarc.TopDown
             
         }
 
-        public bool Vaccinate(GameObject person)
+        public bool VaccinatePatient()
         {
-            // person.GetComponent<Door>().HealWithVaccine(vaccine_value);
-
             vaccines_left = vaccines_left - 1;
 
             if (vaccines_left < 3)
