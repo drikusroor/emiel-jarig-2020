@@ -27,6 +27,7 @@ namespace IndieMarc.TopDown
 
         [Header("Audio")]
         public AudioClip audio_die;
+        public AudioClip audio_wear_mouth_cape;
 
         public UnityAction onDeath;
         public UnityAction onHit;
@@ -38,6 +39,7 @@ namespace IndieMarc.TopDown
         private AutoOrderLayer auto_order;
         private ContactFilter2D contact_filter;
         private AudioSource audio_source;
+        private AudioSource footsteps_audio_source;
 
         private float hp;
         private bool is_dead = false;
@@ -62,6 +64,8 @@ namespace IndieMarc.TopDown
             auto_order = GetComponent<AutoOrderLayer>();
             hp = max_hp;
             start_pos = transform.position;
+            audio_source = GetComponent<AudioSource>();
+            footsteps_audio_source = transform.Find("Shadow").GetComponent<AudioSource>();
         }
 
         void OnDestroy()
@@ -88,6 +92,20 @@ namespace IndieMarc.TopDown
             //Move
             rigid.velocity = move;
             
+            if (move.x == 0 && move.y == 0)
+            {
+                if (footsteps_audio_source.isPlaying)
+                {
+                    footsteps_audio_source.Stop();
+                }
+            }
+            else
+            {
+                if (!footsteps_audio_source.isPlaying)
+                {
+                    footsteps_audio_source.Play();
+                }
+            }
         }
 
         //Handle render and controls
@@ -128,6 +146,7 @@ namespace IndieMarc.TopDown
         {
             is_wearing_mouth_caper = true;
             mouth_caper.gameObject.SetActive(true);
+            audio_source.PlayOneShot(audio_wear_mouth_cape);
         }
 
         public bool IsWearingMouthCaper()
@@ -166,7 +185,7 @@ namespace IndieMarc.TopDown
                 if (onDeath != null)
                     onDeath.Invoke();
 
-                audio_source.Play();
+                audio_source.PlayOneShot(audio_die);
 
                 Teleport(start_pos);
             }

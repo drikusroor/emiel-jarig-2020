@@ -23,6 +23,8 @@ namespace IndieMarc.TopDown
         private bool action_press = false;
         private bool action_hold = false;
 
+        private AudioSource audio_source;
+
         private static Dictionary<int, PlayerControls> controls = new Dictionary<int, PlayerControls>();
 
         void Awake()
