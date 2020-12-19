@@ -26,17 +26,24 @@ var font_files_path = 'app/fonts/**/*';
 var destination_folder = 'dist';
 
 /* Task to convert scss (sass) to css */
-gulp.task('sass2css', function(){
+gulp.task('sass2css', function () {
   return gulp.src(scss_files_path)
     .pipe(sass()) /* Converts Sass to CSS with gulp-sass */
     .pipe(gulp.dest('app/css'))
+    .pipe(gulp.dest('dist/css'))
     .pipe(browserSync.reload({
       stream: true
     }))
 });
 
+/* Task to copy js */
+gulp.task('js', function () {
+  return gulp.src(js_files_path)
+    .pipe(gulp.dest('dist/js'))
+});
+
 /* Task to concatenate js files mentioned in *.html into one file */
-gulp.task('useref', function(){
+gulp.task('useref', function () {
   return gulp.src(html_files_path)
     .pipe(useref())
     /* Minifies only if it's a JavaScript file */
@@ -47,18 +54,18 @@ gulp.task('useref', function(){
 });
 
 /* Task to copy fonts/ folder to dist/ */
-gulp.task('fonts', function() {
+gulp.task('fonts', function () {
   return gulp.src(font_files_path)
-  .pipe(gulp.dest(destination_folder + '/fonts'))
+    .pipe(gulp.dest(destination_folder + '/fonts'))
 });
 
 /* Task to remove dist/ folder */
-gulp.task('clean:dist', function() {
+gulp.task('clean:dist', function () {
   return del.sync(destination_folder);
 });
 
 /* Task to run local server for development and autoreload */
-gulp.task('browserSync', function() {
+gulp.task('browserSync', function () {
   browserSync.init({
     server: {
       baseDir: 'app',
@@ -68,7 +75,7 @@ gulp.task('browserSync', function() {
 });
 
 /* Task to watch changes in specific folder and perform a task */
-gulp.task('watch',['browserSync', 'sass2css'], function(){
+gulp.task('watch', ['browserSync', 'sass2css'], function () {
   gulp.watch(scss_files_path, ['sass2css']);
   gulp.watch(html_files_path, browserSync.reload);
   gulp.watch(js_files_path, browserSync.reload);
@@ -80,14 +87,14 @@ gulp.task('build', function (callback) {
   console.log('Building files');
 
   runSequence('clean:dist',
-    ['sass2css', 'useref', 'fonts'],
+    ['sass2css', 'js', 'useref', 'fonts'],
     callback
   )
 });
 
 /* Allows to use 'gulp' command to start development server */
 gulp.task('default', function (callback) {
-  runSequence(['sass2css','browserSync', 'watch'],
+  runSequence(['sass2css', 'js', 'browserSync', 'watch'],
     callback
   )
 })
