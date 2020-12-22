@@ -14,6 +14,7 @@ var uglify = require('gulp-uglify'); /* minify js content */
 var cssnano = require('gulp-cssnano'); /* minify css content */
 var del = require('del'); /* delete file/folder */
 var runSequence = require('run-sequence'); /* run tasks in sequence */
+const imagemin = require('gulp-imagemin');
 
 var browserSync = require('browser-sync').create();
 
@@ -21,6 +22,7 @@ var browserSync = require('browser-sync').create();
 var scss_files_path = 'app/scss/**/*.scss';
 var html_files_path = 'app/*.html';
 var js_files_path = 'app/js/**/*.js';
+var img_files_path = 'app/img/**/*.+(png|jpg|gif)';
 var font_files_path = 'app/fonts/**/*';
 
 var destination_folder = 'dist';
@@ -41,6 +43,15 @@ gulp.task('js', function () {
   return gulp.src(js_files_path)
     .pipe(gulp.dest('dist/js'))
 });
+
+gulp.task('img', function () {
+  return gulp.src(img_files_path)
+    .pipe(imagemin())
+    .pipe(gulp.dest('dist/img'))
+    .pipe(browserSync.reload({
+      stream: true
+    }))
+})
 
 /* Task to concatenate js files mentioned in *.html into one file */
 gulp.task('useref', function () {
@@ -75,10 +86,11 @@ gulp.task('browserSync', function () {
 });
 
 /* Task to watch changes in specific folder and perform a task */
-gulp.task('watch', ['browserSync', 'sass2css'], function () {
+gulp.task('watch', ['browserSync', 'sass2css', 'img'], function () {
   gulp.watch(scss_files_path, ['sass2css']);
   gulp.watch(html_files_path, browserSync.reload);
   gulp.watch(js_files_path, browserSync.reload);
+  gulp.watch(img_files_path, browserSync.reload);
 });
 
 /* Task aggregation to run various above task sequentially and parallely, and prepare dist/ folder
@@ -87,14 +99,14 @@ gulp.task('build', function (callback) {
   console.log('Building files');
 
   runSequence('clean:dist',
-    ['sass2css', 'js', 'useref', 'fonts'],
+    ['sass2css', 'js', 'img', 'useref', 'fonts'],
     callback
   )
 });
 
 /* Allows to use 'gulp' command to start development server */
 gulp.task('default', function (callback) {
-  runSequence(['sass2css', 'js', 'browserSync', 'watch'],
+  runSequence(['sass2css', 'js', 'img', 'browserSync', 'watch'],
     callback
   )
 })

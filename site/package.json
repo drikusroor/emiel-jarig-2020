@@ -3,7 +3,9 @@
     "start": "./node_modules/.bin/gulp",
     "build": "node_modules/.bin/gulp build"
   },
-  "dependencies": {},
+  "dependencies": {
+    "gulp-imagemin": "^7.1.0"
+  },
   "devDependencies": {
     "browser-sync": "^2.18.13",
     "del": "^3.0.0",
