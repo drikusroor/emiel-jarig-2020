@@ -8,12 +8,14 @@ public class DrinkWithFriends : MonoBehaviour
     // Start is called before the first frame update
     private Confetti confetti;
     private Speaker speaker;
+    public Cadeau cadeau;
     private IEnumerator coroutine;
 
     void Start()
     {
         confetti = transform.Find("Confetti").GetComponent<Confetti>();
         speaker = transform.Find("Speaker").GetComponent<Speaker>();
+        cadeau = transform.Find("Cadeau").GetComponent<Cadeau>();
     }
 
     // Update is called once per frame
@@ -37,6 +39,7 @@ public class DrinkWithFriends : MonoBehaviour
     {
         confetti.Pop();
         speaker.PlayMusic();
+        cadeau.Show();
 
         var disco_lights = FindObjectsOfType<DiscoLight>();
 

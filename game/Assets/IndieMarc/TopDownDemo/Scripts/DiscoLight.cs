@@ -24,7 +24,7 @@ public class DiscoLight : MonoBehaviour
     public void TurnOn()
     {
         flicker_mode = true;
-        coroutine = Flicker(1f);
+        coroutine = Flicker(0.48f);
 
         if (flicker_mode)
         {
