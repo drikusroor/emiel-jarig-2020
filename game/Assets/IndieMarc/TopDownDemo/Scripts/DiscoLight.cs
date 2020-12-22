@@ -28,15 +28,12 @@ public class DiscoLight : MonoBehaviour
 
         if (flicker_mode)
         {
-            
             StartCoroutine(coroutine);
         }
     }
 
     IEnumerator Flicker(float seconds)
     {
-        Debug.Log("this is happening");
-
         while (flicker_mode)
         {
             light_component.color = new Color(Random.value, Random.value, Random.value);
