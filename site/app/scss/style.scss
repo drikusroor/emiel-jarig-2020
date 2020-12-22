@@ -3,6 +3,7 @@ body {
     font-family: "Comic Sans MS", "Comic Sans", cursive;
     padding: 0px;
     margin: 0px;
+    overflow-x: hidden;
 }
 
 h1,
@@ -38,4 +39,23 @@ h6 {
 
 .t-center {
     text-align: center;
+}
+
+.fade {
+    opacity: 0;
+    transition-duration: .2s;
+    transition-timing-function: linear;
+    transition-property: opacity transform;
+}
+
+.scale {
+    transform: scale(0.5);  
+}
+
+.rotate {
+    transform: rotate(180deg);
+}
+
+.translateX {
+    transform: translateX(100%);
 }
