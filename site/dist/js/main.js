@@ -60,73 +60,64 @@ function colorHeadings() {
   });
 }
 
-function addScrollIntoView () {
+function fadeIn(el, progress) {
+  const opacity = 0 + progress;
+  el.style.opacity = opacity;
+}
 
-  function fadeIn(el, currentScroll, checkpoint) {
-    let opacity = 1;
-    if (currentScroll <= checkpoint) {
-      opacity = 0 + currentScroll / checkpoint;
-    }
-    el.style.opacity = opacity;
-  }
+function rotate(el, progress) {
+  const rotation = 180 - (progress * 180);
+  el.style.transform = `rotate(${rotation}deg)`;
+}
 
-  function rotate(el, currentScroll, checkpoint) {
-    let rotation = 0  
-    if (currentScroll <= checkpoint) {
-      rotation = 180 - (currentScroll / checkpoint * 180);
-    }
-    el.style.transform = `rotate(${rotation}deg)`;
-  }
+function scale(el, progress) {
+  const scaleNumber = 0.5 + (progress * .5);
+  el.style.transform = `scale(${scaleNumber})`;
+}
 
-  function scale(el, currentScroll, checkpoint) {
-    let scaleNumber = 1;
-    if (currentScroll <= checkpoint) {
-      scaleNumber = 0.5 + (currentScroll / checkpoint * .5);
-    }
-    el.style.transform = `scale(${scaleNumber})`;
-  }
-
-  function translateX(el, currentScroll, checkpoint) {
-    let translation = 0;
-    if (currentScroll <= checkpoint) {
-      console.log(currentScroll, checkpoint)
-      translation = 100 - (100 * currentScroll / checkpoint);
-    }
-    el.style.transform = `translateX(${translation}%)`;
-  }
-
-
-  function scrollIntoView() {
-    document.querySelectorAll("[scroll-into-view]").forEach(el => {
-      const bcr = el.getBoundingClientRect();
-
-      const checkpoint = bcr.top;
-
-      const currentScroll = window.pageYOffset;
-      if (el.classList.contains('fade')) {
-        fadeIn(el, currentScroll, checkpoint);
-      }
-
-      if (el.classList.contains('rotate')) {
-        rotate(el, currentScroll, checkpoint);
-      }
-
-      if (el.classList.contains('scale')) {
-        scale(el, currentScroll, checkpoint);
-      }
-
-      if (el.classList.contains('translateX')) {
-        translateX(el, currentScroll, checkpoint);
-      }
-    })
-  }
-
-  window.addEventListener("scroll", scrollIntoView)
-  
+function translateX(el, progress) {
+  const translation = 100 - (100 * progress);
+  el.style.transform = `translateX(${translation}%)`;
 }
 
 
-const onLoadHooks = [colorHeadings, addScrollIntoView];
+function scrollIntoView() {
+
+  const threshold = 300;
+
+  document.querySelectorAll("[scroll-into-view]").forEach(el => {
+    const bcr = el.getBoundingClientRect();
+
+    const wHeight = window.innerHeight / 2 + threshold;
+    const checkpoint = bcr.top;
+
+    const diff = Math.max(checkpoint - wHeight, 0);
+    const progress = (threshold - diff) / threshold;
+
+    if (el.classList.contains('fade')) {
+      fadeIn(el, progress);
+    }
+
+    if (el.classList.contains('rotate')) {
+      rotate(el, progress);
+    }
+
+    if (el.classList.contains('scale')) {
+      scale(el, progress);
+    }
+
+    if (el.classList.contains('translateX')) {
+      translateX(el, progress);
+    }
+  })
+}
+
+function addScrollIntoView() {
+  window.addEventListener("scroll", scrollIntoView)
+}
+
+
+const onLoadHooks = [colorHeadings, addScrollIntoView, scrollIntoView];
 
 window.addEventListener("load", (event) => {
   onLoadHooks.map((hook) => hook());

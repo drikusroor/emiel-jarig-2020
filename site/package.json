@@ -4,7 +4,8 @@
     "build": "node_modules/.bin/gulp build"
   },
   "dependencies": {
-    "gulp-imagemin": "^7.1.0"
+    "gulp-imagemin": "^7.1.0",
+    "merge-stream": "^2.0.0"
   },
   "devDependencies": {
     "browser-sync": "^2.18.13",

@@ -1,9 +1,24 @@
+$breakpoint-s: 480px;
+$spacing-base: 16px;
+$spacing-s: $spacing-base;
+$spacing-m: $spacing-base * 2;
+
+@mixin desktop {
+    @media screen and (min-width: $breakpoint-s) {
+        @content;
+    }
+}
+
+html {
+    overflow-x: hidden;
+}
+
 body {
     background: red;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
-    padding: 0px;
-    margin: 0px;
-    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
 }
 
 h1,
@@ -16,7 +31,7 @@ h6 {
 }
 
 .container {
-    padding: 0px 16px;
+    padding: 0 $spacing-s;
     margin: auto;
     
     &--m {
@@ -26,14 +41,22 @@ h6 {
 
 .block {
     background: aliceblue;
-    padding: 16px;
-    margin: 32px 0px;
+    padding: $spacing-s;
+    margin: $spacing-s 0;
+    
+    @include desktop() {
+        margin: $spacing-m 0;
+    }
 
     h1,
     h2 {
-        margin: -16px -16px 16px -16px;
+        margin: #{-$spacing-s} -#{$spacing-s} #{$spacing-s} #{-$spacing-s};
         background: #000055;
-        padding: 16px;
+        padding: $spacing-s;
+    }
+
+    img, video {
+        max-width: 100%;
     }
 }
 

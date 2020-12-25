@@ -15,6 +15,7 @@ var cssnano = require('gulp-cssnano'); /* minify css content */
 var del = require('del'); /* delete file/folder */
 var runSequence = require('run-sequence'); /* run tasks in sequence */
 const imagemin = require('gulp-imagemin');
+const merge = require('merge-stream');
 
 var browserSync = require('browser-sync').create();
 
@@ -22,7 +23,8 @@ var browserSync = require('browser-sync').create();
 var scss_files_path = 'app/scss/**/*.scss';
 var html_files_path = 'app/*.html';
 var js_files_path = 'app/js/**/*.js';
-var img_files_path = 'app/img/**/*.+(png|jpg|gif)';
+var img_files_path = 'app/img/**/*.+(png|jpg)';
+var gif_files_path = 'app/img/**/*.+(gif)';
 var font_files_path = 'app/fonts/**/*';
 
 var destination_folder = 'dist';
@@ -45,12 +47,16 @@ gulp.task('js', function () {
 });
 
 gulp.task('img', function () {
-  return gulp.src(img_files_path)
+  const gif = gulp.src(gif_files_path)
+    .pipe(gulp.dest('dist/img'))
+
+  const img = gulp.src(img_files_path)
     .pipe(imagemin())
     .pipe(gulp.dest('dist/img'))
-    .pipe(browserSync.reload({
-      stream: true
-    }))
+
+  return merge(img, gif).pipe(browserSync.reload({
+    stream: true
+  }))
 })
 
 /* Task to concatenate js files mentioned in *.html into one file */
