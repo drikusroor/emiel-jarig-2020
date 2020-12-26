@@ -1,3 +1,9 @@
+@keyframes load {
+  from {
+    left: -150px; }
+  to {
+    left: 100%; } }
+
 html {
   overflow-x: hidden; }
 
@@ -37,15 +43,22 @@ h6 {
     margin: -16px -16px 16px -16px;
     background: #000055;
     padding: 16px; }
-  .block img, .block video {
-    max-width: 100%; }
+  .block img,
+  .block video {
+    max-width: 100%;
+    min-height: 100px;
+    background: #ddd; }
+    @media screen and (min-width: 480px) {
+      .block img,
+      .block video {
+        min-height: 300px; } }
 
 .t-center {
   text-align: center; }
 
 .fade {
   opacity: 0;
-  transition-duration: .2s;
+  transition-duration: 0.2s;
   transition-timing-function: linear;
   transition-property: opacity transform; }
 
